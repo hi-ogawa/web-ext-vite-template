@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest",
+  "manifest_version": 3,
+  "name": "tab-manager",
+  "version": "1.0.0.0",
+  "homepage_url": "https://github.com/hi-ogawa/web-ext-vite-template",
+  "action": {
+    "default_popup": "src/popup/index.html"
+  },
+  "options_page": "src/options/index.html"
+}

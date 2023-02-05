@@ -1,0 +1,42 @@
+{
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dev": "run-p dev:*",
+    "dev:vite": "vite --no-clearScreen",
+    "dev:background": "pnpm build:background --watch",
+    "dev-web-ext": "web-ext run",
+    "dev:tsc": "pnpm tsc --watch --preserveWatchOutput",
+    "build": "run-s build:*",
+    "build:vite": "vite build",
+    "build:background": "esbuild ./src/background/index.ts --bundle --format=esm --outfile=./dist/background/index.js",
+    "build-web-ext": "web-ext build",
+    "tsc": "tsc -b",
+    "lint": "run-s lint:*",
+    "lint-check": "run-s lint-check:*",
+    "lint:prettier": "prettier --write --cache .",
+    "lint-check:prettier": "prettier --check --cache ."
+  },
+  "devDependencies": {
+    "@hiogawa/utils": "^1.0.2",
+    "@tsconfig/strictest": "^1.0.2",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@types/webextension-polyfill": "^0.10.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "esbuild": "^0.17.5",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tsx": "^3.12.2",
+    "typescript": "^4.9.4",
+    "unocss": "^0.49.4",
+    "vite": "^4.1.1",
+    "vitest": "^0.28.3",
+    "web-ext": "^7.5.0",
+    "webextension-polyfill": "^0.10.0"
+  },
+  "volta": {
+    "node": "18.14.0"
+  }
+}
