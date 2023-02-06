@@ -1,4 +1,4 @@
-# web-ext-vite-template (wip)
+# web-ext-vite-template
 
 experiment with browser extensions api and build system
 
@@ -9,13 +9,6 @@ pnpm dev
 pnpm build
 pnpm preview
 ```
-
-## todo
-
-- dev
-  - dummy entry to refer dev server endpoint
-  - how to background script?
-    - probably let bare esbuild take care of it independently since no hmr needed
 
 ## references
 
