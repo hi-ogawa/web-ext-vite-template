@@ -13,5 +13,9 @@
   "action": {
     "default_popup": "popup/index.html"
   },
+  "background": {
+    "type": "module",
+    "service_worker": "background/index.js"
+  },
   "options_page": "options/index.html"
 }

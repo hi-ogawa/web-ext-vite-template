@@ -5,10 +5,9 @@ experiment with browser extensions api and build system
 ```sh
 pnpm i
 pnpm dev
-npx web-ext run -s src/dev -t chromium
 
 pnpm build
-npx web-ext run -s dist -t chromium
+pnpm preview
 ```
 
 ## todo
@@ -20,4 +19,5 @@ npx web-ext run -s dist -t chromium
 
 ## references
 
+- https://developer.chrome.com/docs/extensions/mv3/manifest/
 - https://github.com/mdn/webextensions-examples
