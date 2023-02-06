@@ -10,12 +10,6 @@
     "48": "assets/icon-48.png",
     "128": "assets/icon-128.png"
   },
-  "content_security_policy": {
-    "sandbox": "sandbox allow-scripts; script-src 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline' http://localhost:18181"
-  },
-  "sandbox": {
-    "pages": ["popup/index.html", "options/index.html"]
-  },
   "action": {
     "default_popup": "popup/index.html"
   },
