@@ -8,7 +8,7 @@
     "build": "run-s build:*",
     "build:vite": "vite build",
     "build:background": "esbuild ./src/background/index.ts --bundle --format=esm --outdir=./dist/background",
-    "build:manifest": "mkdir -p dist && cp -f src/manifest.json dist/manifest.json",
+    "build:manifest": "mkdir -p dist && cp -f src/dev/manifest.production.json dist/manifest.json",
     "build:web-ext": "rm -rf web-ext-artifacts && web-ext build -s dist",
     "preview": "npx web-ext run -s dist -t chromium",
     "tsc": "tsc -b",
