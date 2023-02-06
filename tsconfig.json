@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/strictest/tsconfig.json",
   "include": ["src"],
+  "exclude": ["src/dev/dist"],
   "compilerOptions": {
     "noEmit": true,
     "module": "ESNext",

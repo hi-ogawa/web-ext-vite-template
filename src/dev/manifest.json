@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest",
+  "manifest_version": 3,
+  "name": "web-ext-vite-template",
+  "version": "1.0.0.0",
+  "homepage_url": "https://github.com/hi-ogawa/web-ext-vite-template",
+  "content_security_policy": {
+    "sandbox": "sandbox allow-scripts; script-src 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline' http://localhost:18181"
+  },
+  "sandbox": {
+    "pages": ["popup/index.html", "options/index.html"]
+  },
+  "action": {
+    "default_popup": "popup/index.html"
+  },
+  "options_page": "options/index.html"
+}

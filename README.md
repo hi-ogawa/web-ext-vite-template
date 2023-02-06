@@ -4,12 +4,11 @@ experiment with browser extensions api and build system
 
 ```sh
 pnpm i
-pnpm build
-cp -f src/manifest.json dist/manifest.json
-pnpm dev-web-ext -t chromium
-
-# TODO
 pnpm dev
+npx web-ext run -s src/dev -t chromium
+
+pnpm build
+npx web-ext run -s dist -t chromium
 ```
 
 ## todo
