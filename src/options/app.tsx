@@ -1,14 +1,14 @@
 import React from "react";
-// import browser from "webextension-polyfill";
+import browser from "webextension-polyfill";
 
 export function App() {
   const [counter, setCounter] = React.useState(0);
-  // React.useEffect(() => {
-  //   (async () => {
-  //     const tabs = await browser.tabs.query({});
-  //     console.log(tabs);
-  //   })();
-  // }, []);
+  React.useEffect(() => {
+    (async () => {
+      const tabs = await browser.tabs.query({});
+      console.log(tabs);
+    })();
+  }, []);
 
   return (
     <div className="flex flex-col">
