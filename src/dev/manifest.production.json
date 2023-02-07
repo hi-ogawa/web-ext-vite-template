@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/chrome-manifest",
   "manifest_version": 2,
-  "name": "Vite Template",
+  "name": "Tab Manager",
   "version": "1.0.0.0",
   "homepage_url": "https://github.com/hi-ogawa/web-ext-vite-template",
   "icons": {
@@ -10,7 +10,7 @@
     "48": "assets/icon-48.png",
     "128": "assets/icon-128.png"
   },
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "storage"],
   "browser_action": {
     "default_popup": "src/popup/index.html"
   },
