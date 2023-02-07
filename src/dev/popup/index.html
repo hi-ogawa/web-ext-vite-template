@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base href="http://localhost:18181/" />
-    <script type="module">
-      import RefreshRuntime from "/@react-refresh";
-      RefreshRuntime.injectIntoGlobalHook(window);
-      window.$RefreshReg$ = () => {};
-      window.$RefreshSig$ = () => (type) => type;
-      window.__vite_plugin_react_preamble_installed__ = true;
-    </script>
-    <script type="module" src="/@vite/client"></script>
     <meta charset="UTF-8" />
     <title>popup</title>
     <meta
       name="viewport"
       content="width=device-width, height=device-height, initial-scale=1.0"
     />
+    <script src="../dev-vite.js" type="module"></script>
   </head>
   <body>
     <div id="root"></div>
-    <script src="/src/popup/index.tsx" type="module"></script>
+    <script
+      src="http://localhost:18181/src/popup/index.tsx"
+      type="module"
+    ></script>
   </body>
 </html>

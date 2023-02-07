@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/chrome-manifest",
   "manifest_version": 2,
-  "name": "Vite Template (dev)",
+  "name": "Vite Template",
   "version": "1.0.0.0",
   "homepage_url": "https://github.com/hi-ogawa/web-ext-vite-template",
   "icons": {
@@ -11,12 +11,11 @@
     "128": "assets/icon-128.png"
   },
   "permissions": ["tabs"],
-  "content_security_policy": "script-src 'self' 'unsafe-inline'; script-src-elem 'self' 'unsafe-inline' http://localhost:18181",
   "browser_action": {
-    "default_popup": "popup/index.html"
+    "default_popup": "src/popup/index.html"
   },
   "background": {
     "scripts": ["background/index.js"]
   },
-  "options_page": "options/index.html"
+  "options_page": "src/options/index.html"
 }

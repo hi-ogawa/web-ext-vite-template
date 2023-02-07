@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@hiogawa/utils': ^1.0.2
+  '@iconify-json/ri': ^1.1.4
   '@tsconfig/strictest': ^1.0.2
   '@types/react': ^18.0.27
   '@types/react-dom': ^18.0.10
@@ -22,6 +23,7 @@ specifiers:
 
 devDependencies:
   '@hiogawa/utils': 1.0.2
+  '@iconify-json/ri': 1.1.4
   '@tsconfig/strictest': 1.0.2
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
@@ -791,6 +793,12 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    dev: true
+
+  /@iconify-json/ri/1.1.4:
+    resolution: {integrity: sha512-gAk2gQBVghgbMLOmbUCc3l4COMMH5sR3HhBqpjaPUFBbC4WsNNRyOD4RZgjlanU7DTgFrj4NarY5K2EkXaVxuw==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: true
 
   /@iconify/types/2.0.0:
