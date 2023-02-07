@@ -7,24 +7,13 @@
       name="viewport"
       content="width=device-width, height=device-height, initial-scale=1.0"
     />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      /* TODO: send back iframe's width/height from iframe to parent? */
-      /* html,
-      body,
-      iframe {
-        width: 100%;
-        height: 100%;
-      } */
-    </style>
+    <script src="../dev-vite.js" type="module"></script>
   </head>
   <body>
-    <iframe
-      src="http://localhost:18181/src/popup/index.html"
-      frameborder="0"
-    ></iframe>
+    <div id="root"></div>
+    <script
+      src="http://localhost:18181/src/popup/index.tsx"
+      type="module"
+    ></script>
   </body>
 </html>
