@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/chrome-manifest",
   "manifest_version": 2,
-  "name": "tab manager (dev)",
+  "name": "Vite Template (dev)",
   "version": "1.0.0.0",
   "homepage_url": "https://github.com/hi-ogawa/web-ext-vite-template",
   "icons": {

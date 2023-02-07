@@ -2,9 +2,9 @@
 
 # generate png icons with different sizes using https://remixicon.com/
 # usage:
-#   bash misc/generate-icon.sh
+#   bash misc/generate-icon.sh flask-line
 
-icon_name="${1:-"folder-4-line"}"
+icon_name="$1"
 icon_svg=$(jq -r '.icons."'"$icon_name"'".body' < node_modules/@iconify-json/ri/icons.json)
 
 mkdir -p src/dev/assets
