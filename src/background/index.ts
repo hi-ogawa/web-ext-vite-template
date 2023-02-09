@@ -12,4 +12,17 @@ function main() {
   });
 }
 
+// comlink adaptor? https://developer.chrome.com/docs/extensions/mv3/messaging/
+const ENDPOINT_NAME = "__background";
+
+() => {
+  const port = browser.runtime.connect(undefined, { name: ENDPOINT_NAME });
+  port.postMessage;
+
+  browser.runtime.onConnect.addListener((port) => {
+    port.name;
+    port.postMessage;
+  });
+};
+
 main();
