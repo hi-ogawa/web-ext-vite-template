@@ -1,5 +1,7 @@
 import browser from "webextension-polyfill";
 
+const MESSAGE_PORT_HANDSHAKE = "MESSAGE_PORT_HANDSHAKE";
+
 function main() {
   console.log("background/main");
 
@@ -9,6 +11,14 @@ function main() {
 
   browser.tabs.onRemoved.addListener(() => {
     console.log("background/tabs.onRemoved");
+  });
+
+  // TODO: extension port doesn't support MessageChannel transfer...
+  browser.runtime.onConnect.addListener((port) => {
+    console.log("background:onConnect", port);
+    if (port.name === MESSAGE_PORT_HANDSHAKE) {
+      port.postMessage;
+    }
   });
 }
 

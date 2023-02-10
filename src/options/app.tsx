@@ -6,6 +6,19 @@ import * as zustand from "zustand";
 export function App() {
   const clientStore = zustand.useStore(gClientStore);
 
+  React.useEffect(() => {
+    const extensionPort = browser.runtime.connect(undefined, {
+      name: "MESSAGE_PORT_HANDSHAKE",
+    });
+    extensionPort.postMessage;
+    const messageChannel = new MessageChannel();
+    messageChannel.port1.start();
+    messageChannel.port1.postMessage;
+    messageChannel.port2;
+
+    // extensionPort.postMessage()
+  });
+
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-md m-0">Tab Manager</h1>
@@ -136,6 +149,7 @@ export class ClientData {
 }
 
 import produce, { immerable } from "immer";
+import React from "react";
 
 export class ClientDataImmer {
   [immerable] = true;

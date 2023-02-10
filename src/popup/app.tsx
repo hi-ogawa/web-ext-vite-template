@@ -4,6 +4,7 @@ import { gClientData, gClientStore } from "../options/app";
 
 export function App() {
   const clientStore = zustand.useStore(gClientStore);
+  clientStore;
 
   // clientStore.addG
 
