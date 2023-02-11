@@ -18,6 +18,13 @@
     "lint:prettier": "prettier --write --cache .",
     "lint-check:prettier": "prettier --check --cache ."
   },
+  "dependencies": {
+    "@hiogawa/utils-react": "1.0.0-pre.1",
+    "@tanstack/react-query": "^4.24.4",
+    "@tanstack/react-query-devtools": "^4.24.4",
+    "comlink": "^4.4.1",
+    "superjson": "^1.12.2"
+  },
   "devDependencies": {
     "@hiogawa/utils": "^1.0.2",
     "@iconify-json/ri": "^1.1.4",
@@ -34,19 +41,12 @@
     "tsx": "^3.12.2",
     "typescript": "^4.9.4",
     "unocss": "^0.49.4",
-    "valtio": "^1.10.1",
     "vite": "^4.1.1",
     "vitest": "^0.28.3",
     "web-ext": "^7.5.0",
-    "webextension-polyfill": "^0.10.0",
-    "zustand": "^4.3.2"
+    "webextension-polyfill": "^0.10.0"
   },
   "volta": {
     "node": "18.14.0"
-  },
-  "dependencies": {
-    "comlink": "^4.4.1",
-    "immer": "^9.0.19",
-    "superjson": "^1.12.2"
   }
 }

@@ -6,8 +6,8 @@ import * as superjson from "superjson";
 
 // cf. https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/node-adapter.ts#L24
 
-// TODO: `browser.Runtime.Port` doesn't support "transfer" thus callback proxy is not possible
-//        https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/comlink.ts#L209
+// `browser.Runtime.Port` doesn't support "transfer" thus callback proxy is not possible
+//  https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/comlink.ts#L209
 
 export function createComlinkEndpoint(port: browser.Runtime.Port): Endpoint {
   const listerMap = new WeakMap<object, any>();
