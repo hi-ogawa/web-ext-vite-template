@@ -17,6 +17,16 @@ export class TabManager {
   // persistence
   //
 
+  serialize(): string {
+    return superjson.stringify(pick(this, STORAGE_PROPS));
+  }
+
+  static deserialize(serialized: string): TabManager {
+    const instance = new TabManager();
+    Object.assign(instance, superjson.parse(serialized));
+    return instance;
+  }
+
   static async load(): Promise<TabManager> {
     const record = await browser.storage.local.get(STORAGE_KEY);
     const serialized = record[STORAGE_KEY];
@@ -95,4 +105,19 @@ interface SavedTabGroup {
   tabs: SavedTab[];
 }
 
+// TODO: `generateId` for unique id
 type SavedTab = Pick<browser.Tabs.Tab, "url" | "title" | "favIconUrl">;
+
+// loophole for dev convenience
+async function __importTabManager(serialized: string) {
+  const tabManager = TabManager.deserialize(serialized);
+  await tabManager.save();
+}
+
+async function __exportTabManager() {
+  const tabManager = await TabManager.load();
+  const serialized = tabManager.serialize();
+  console.log(JSON.stringify(serialized));
+}
+
+Object.assign(globalThis, { __importTabManager, __exportTabManager });

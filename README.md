@@ -1,6 +1,8 @@
 # web-ext-vite-template
 
-vite-based browser extension development
+Template for vite-based browser extension development.
+
+As an example, this repo contains a simple clone of https://www.one-tab.com/.
 
 ```sh
 pnpm i
@@ -11,7 +13,7 @@ pnpm build
 pnpm preview
 ```
 
-![image](https://user-images.githubusercontent.com/4232207/217143476-ba7768af-9ca6-46f9-ba82-c28f63a7d2a3.png)
+![image](https://user-images.githubusercontent.com/4232207/218254110-23ec4ba8-255f-4153-a29f-f3766fa8dd59.png)
 
 ## references
 

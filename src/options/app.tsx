@@ -76,6 +76,7 @@ export function AppInner() {
                 </button>
               </div>
               <ul className="m-0 flex flex-col gap-3">
+                {/* TODO: key not unique */}
                 {group.tabs.map((tab, index) => (
                   <li key={tab.url} className="flex items-center gap-2">
                     <a
