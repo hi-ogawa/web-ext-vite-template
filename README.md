@@ -2,13 +2,6 @@
 
 vite-based browser extension development
 
-- features
-  - HMR for options page and popup ui
-- known issues
-  - manifest v3 is not supported during dev
-
-## example
-
 ```sh
 pnpm i
 pnpm dev
