@@ -63,11 +63,17 @@ export class TabManager {
     this.groups = this.groups.filter((g) => g.id !== id);
   }
 
-  restoreTabGroup(id: string) {
+  async restoreTabGroup(id: string) {
     const group = this.groups.find((g) => g.id === id);
     if (group) {
-      // TODO
-      group.tabs;
+      // TODO: remove default new tab
+      const newWindow = await browser.windows.create();
+      for (const tab of group.tabs) {
+        await browser.tabs.create({
+          url: tab.url,
+          windowId: newWindow.id,
+        });
+      }
     }
   }
 
@@ -75,15 +81,6 @@ export class TabManager {
     const group = this.groups.find((g) => g.id === id);
     if (group) {
       group.tabs.splice(index, 1);
-    }
-  }
-
-  restoreTab(id: string, index: number) {
-    const group = this.groups.find((g) => g.id === id);
-    if (group) {
-      // TODO
-      const tab = group.tabs[index];
-      tab;
     }
   }
 }

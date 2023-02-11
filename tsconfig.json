@@ -3,6 +3,7 @@
   "include": ["src"],
   "exclude": ["src/dev"],
   "compilerOptions": {
+    "exactOptionalPropertyTypes": false,
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "node",

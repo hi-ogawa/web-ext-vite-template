@@ -30,6 +30,7 @@ export function AppInner() {
   });
 
   React.useEffect(() => {
+    // TODO: unsubscribe
     tabManagerProxy.subscribe(
       proxy(() => {
         tabGroupsQuery.refetch();
@@ -46,6 +47,7 @@ export function AppInner() {
           tabGroupsQuery.data.map((group) => (
             <div key={group.id} className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
+                {/* TODO: plural */}
                 <div>{group.tabs.length} tabs</div>
                 <div className="text-gray-500">
                   Created at {dateTimeFormat.format(group.createdAt)}
