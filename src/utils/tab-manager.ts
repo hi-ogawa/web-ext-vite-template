@@ -93,6 +93,9 @@ export class TabManager {
     const group = this.groups.find((g) => g.id === id);
     if (group) {
       group.tabs.splice(index, 1);
+      if (group.tabs.length === 0) {
+        this.groups = this.groups.filter((g) => g.id !== id);
+      }
     }
     this.save();
   }

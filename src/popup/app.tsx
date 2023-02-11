@@ -16,7 +16,7 @@ export function App() {
           if (currentTab) {
             await tabManagerProxy.addTabGroup([currentTab]);
             await tabManagerProxy.notify();
-            if (!e.shiftKey) {
+            if (!e.ctrlKey) {
               await browser.tabs.remove([currentTab.id].filter(isNonNil));
             }
           }
@@ -32,7 +32,7 @@ export function App() {
           });
           await tabManagerProxy.addTabGroup(tabs);
           await tabManagerProxy.notify();
-          if (!e.shiftKey) {
+          if (!e.ctrlKey) {
             await browser.tabs.remove(tabs.map((t) => t.id).filter(isNonNil));
           }
         }}
