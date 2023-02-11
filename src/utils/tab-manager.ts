@@ -65,7 +65,7 @@ export class TabManager {
     const group: SavedTabGroup = {
       id: generateId(),
       createdAt: new Date(),
-      tabs,
+      tabs: tabs.map(toSavedTab),
     };
     this.groups.push(group);
     this.save();
@@ -105,8 +105,21 @@ interface SavedTabGroup {
   tabs: SavedTab[];
 }
 
-// TODO: `generateId` for unique id
-type SavedTab = Pick<browser.Tabs.Tab, "url" | "title" | "favIconUrl">;
+interface SavedTab {
+  id: string;
+  url?: string;
+  title?: string;
+  favIconUrl?: string;
+}
+
+function toSavedTab(tab: browser.Tabs.Tab): SavedTab {
+  return {
+    id: generateId(),
+    url: tab.url,
+    title: tab.title,
+    favIconUrl: tab.favIconUrl,
+  };
+}
 
 // loophole for dev convenience
 async function __importTabManager(serialized: string) {
