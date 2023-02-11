@@ -1,4 +1,7 @@
 import browser from "webextension-polyfill";
+import { serviceClient } from "../utils/service-client";
+
+// TODO: close save tabs at the same time
 
 export function App() {
   return (
@@ -13,8 +16,7 @@ export function App() {
           const currentTab = tabs[0];
           console.log({ currentTab });
           if (currentTab) {
-            // gClientData.addGroup([currentTab]);
-            // gClientData.save();
+            serviceClient.addTabGroup([currentTab]);
           }
         }}
       >
@@ -26,9 +28,7 @@ export function App() {
             currentWindow: true,
             pinned: false,
           });
-          tabs;
-          // gClientData.addGroup(tabs);
-          // gClientData.save();
+          serviceClient.addTabGroup(tabs);
         }}
       >
         Save all tabs
