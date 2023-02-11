@@ -1,5 +1,5 @@
 import browser from "webextension-polyfill";
-import { serviceClient } from "../utils/service-client";
+import { tabManagerProxy } from "../utils/tab-manager-client";
 
 // TODO: close save tabs at the same time
 
@@ -14,9 +14,9 @@ export function App() {
             active: true,
           });
           const currentTab = tabs[0];
-          console.log({ currentTab });
           if (currentTab) {
-            serviceClient.addTabGroup([currentTab]);
+            await tabManagerProxy.addTabGroup([currentTab]);
+            await tabManagerProxy.notify();
           }
         }}
       >
@@ -28,7 +28,8 @@ export function App() {
             currentWindow: true,
             pinned: false,
           });
-          serviceClient.addTabGroup(tabs);
+          await tabManagerProxy.addTabGroup(tabs);
+          await tabManagerProxy.notify();
         }}
       >
         Save all tabs

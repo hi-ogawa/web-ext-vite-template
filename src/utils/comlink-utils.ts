@@ -4,11 +4,7 @@ import { tinyassert } from "@hiogawa/utils";
 import * as comlink from "comlink";
 import * as superjson from "superjson";
 
-// cf. https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/node-adapter.ts#L24
-
-// `browser.Runtime.Port` doesn't support "transfer" thus callback proxy is not possible
-//  https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/comlink.ts#L209
-
+// similar idea as https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/node-adapter.ts#L24
 export function createComlinkEndpoint(port: browser.Runtime.Port): Endpoint {
   const listerMap = new WeakMap<object, any>();
 
@@ -55,6 +51,8 @@ export function createComlinkEndpoint(port: browser.Runtime.Port): Endpoint {
 
 export function createComlinkProxy<T>(portName: string): comlink.Remote<T> {
   const port = browser.runtime.connect({ name: portName });
+  // TODO: how to disconnect
+  port.disconnect;
   const endpoint = createComlinkEndpoint(port);
   const proxy = comlink.wrap<T>(endpoint);
   return proxy;
@@ -72,3 +70,31 @@ export function exposeComlinkService(portName: string, service: unknown) {
     browser.runtime.onConnect.removeListener(handler);
   };
 }
+
+// porting https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/comlink.ts#L209
+// since `browser.Runtime.Port` doesn't support "transfer"
+const myProxyTransferHandler: comlink.TransferHandler<any, string> = {
+  canHandle: (value: unknown): value is any => {
+    return Boolean(
+      value &&
+        (typeof value === "object" || typeof value === "function") &&
+        comlink.proxyMarker in value
+    );
+  },
+
+  serialize: (value: any): [string, Transferable[]] => {
+    const portName = Math.floor(
+      Math.random() * Number.MAX_SAFE_INTEGER
+    ).toString(16);
+    const unsubscribe = exposeComlinkService(portName, value);
+    // TODO: how to unsubscribe? probably leaks a lot especially during hmr dev
+    unsubscribe;
+    return [portName, []];
+  },
+
+  deserialize: (portName: string): any => {
+    return createComlinkProxy(portName);
+  },
+};
+
+comlink.transferHandlers.set("proxy", myProxyTransferHandler);

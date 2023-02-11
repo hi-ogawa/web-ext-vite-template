@@ -5,6 +5,7 @@ vite-based browser extension development
 ```sh
 pnpm i
 pnpm dev
+pnpm preview-dev  # or manually "src/dev" on your browser
 
 pnpm build
 pnpm preview

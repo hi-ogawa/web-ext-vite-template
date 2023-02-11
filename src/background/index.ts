@@ -1,12 +1,9 @@
 import { exposeComlinkService } from "../utils/comlink-utils";
-import {
-  CONNECT_TAB_MANAGER_SERVICE,
-  TabManagerService,
-} from "../utils/service";
+import { CONNECT_TAB_MANAGER, TabManager } from "../utils/tab-manager";
 
 function main() {
-  const service = new TabManagerService();
-  exposeComlinkService(CONNECT_TAB_MANAGER_SERVICE, service);
+  const service = new TabManager();
+  exposeComlinkService(CONNECT_TAB_MANAGER, service);
 }
 
 main();

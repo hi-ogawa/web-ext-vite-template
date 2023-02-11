@@ -1,9 +1,11 @@
 import { Compose } from "@hiogawa/utils-react";
 import { useQuery } from "@tanstack/react-query";
+import { proxy } from "comlink";
+import React from "react";
 import toast from "react-hot-toast";
 import { CustomQueryClientProvider, ToasterWrapper } from "../components/misc";
 import { dateTimeFormat } from "../utils/misc";
-import { serviceClient } from "../utils/service-client";
+import { tabManagerProxy } from "../utils/tab-manager-client";
 
 export function App() {
   return (
@@ -20,12 +22,20 @@ export function App() {
 export function AppInner() {
   const tabGroupsQuery = useQuery({
     queryKey: ["getTabGroups"],
-    queryFn: () => serviceClient.getTabGroups(),
+    queryFn: () => tabManagerProxy.getTabGroups(),
     onError: (e) => {
       console.error(e);
       toast.error("failed to load tab data");
     },
   });
+
+  React.useEffect(() => {
+    tabManagerProxy.subscribe(
+      proxy(() => {
+        tabGroupsQuery.refetch();
+      })
+    );
+  }, []);
 
   // TODO: drag-drop
   return (
@@ -44,7 +54,7 @@ export function AppInner() {
               <div className="flex gap-1">
                 <button
                   onClick={async () => {
-                    await serviceClient.restoreTabGroup(group.id);
+                    await tabManagerProxy.restoreTabGroup(group.id);
                     tabGroupsQuery.refetch();
                   }}
                 >
@@ -52,7 +62,7 @@ export function AppInner() {
                 </button>
                 <button
                   onClick={async () => {
-                    await serviceClient.deleteTabGroup(group.id);
+                    await tabManagerProxy.deleteTabGroup(group.id);
                     tabGroupsQuery.refetch();
                   }}
                 >

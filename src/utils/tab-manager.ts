@@ -1,11 +1,12 @@
 import browser from "webextension-polyfill";
 import * as superjson from "superjson";
+import { proxy } from "comlink";
 
-export const CONNECT_TAB_MANAGER_SERVICE = "CONNECT_TAB_MANAGER_SERVICE";
+export const CONNECT_TAB_MANAGER = "CONNECT_TAB_MANAGER";
 
 const STORAGE_KEY = "STORAGE_KEY";
 
-export class TabManagerService {
+export class TabManager {
   autoIncrementId: number = 0;
   groups: SavedTabGroup[] = TAB_MANAGER_MOCK_DATA;
 
@@ -13,10 +14,10 @@ export class TabManagerService {
   // persistence (TODO)
   //
 
-  static async load(): Promise<TabManagerService> {
+  static async load(): Promise<TabManager> {
     const record = await browser.storage.local.get(STORAGE_KEY);
     const serialized = record[STORAGE_KEY];
-    const instance = new TabManagerService();
+    const instance = new TabManager();
     if (serialized) {
       Object.assign(instance, superjson.parse(serialized));
     }
@@ -32,11 +33,23 @@ export class TabManagerService {
   // api
   //
 
+  private handlers = new Set<(event?: string) => void>();
+
+  subscribe(handler: (event?: string) => void) {
+    this.handlers.add(handler);
+    return proxy(() => this.handlers.delete(handler));
+  }
+
+  notify(event?: string) {
+    for (const handler of this.handlers) {
+      handler(event);
+    }
+  }
+
   getTabGroups(): SavedTabGroup[] {
     return this.groups;
   }
 
-  // TODO: force refetch in options page?
   addTabGroup(tabs: browser.Tabs.Tab[]) {
     const group: SavedTabGroup = {
       id: String(this.autoIncrementId++),
