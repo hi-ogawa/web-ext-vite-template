@@ -1,13 +1,13 @@
 import browser from "webextension-polyfill";
 import * as superjson from "superjson";
 import { proxy } from "comlink";
+import { generateId } from "./misc";
 
 export const CONNECT_TAB_MANAGER = "CONNECT_TAB_MANAGER";
 
 const STORAGE_KEY = "STORAGE_KEY";
 
 export class TabManager {
-  autoIncrementId: number = 0;
   groups: SavedTabGroup[] = TAB_MANAGER_MOCK_DATA;
 
   //
@@ -52,7 +52,7 @@ export class TabManager {
 
   addTabGroup(tabs: browser.Tabs.Tab[]) {
     const group: SavedTabGroup = {
-      id: String(this.autoIncrementId++),
+      id: generateId(),
       createdAt: new Date(),
       tabs,
     };
@@ -63,27 +63,27 @@ export class TabManager {
     this.groups = this.groups.filter((g) => g.id !== id);
   }
 
-  // TODO
   restoreTabGroup(id: string) {
     const group = this.groups.find((g) => g.id === id);
     if (group) {
+      // TODO
       group.tabs;
     }
   }
 
-  // TODO
-  delteTab(id: string) {
-    id;
-    const tab = this.groups.flatMap((g) => g.tabs).find((tab) => tab);
-    if (tab) {
+  delteTab(id: string, index: number) {
+    const group = this.groups.find((g) => g.id === id);
+    if (group) {
+      group.tabs.splice(index, 1);
     }
   }
 
-  // TODO
-  restoreTab(id: string) {
-    id;
-    const tab = this.groups.flatMap((g) => g.tabs).find((tab) => tab);
-    if (tab) {
+  restoreTab(id: string, index: number) {
+    const group = this.groups.find((g) => g.id === id);
+    if (group) {
+      // TODO
+      const tab = group.tabs[index];
+      tab;
     }
   }
 }

@@ -69,13 +69,21 @@ export function AppInner() {
                   Delete all
                 </button>
               </div>
-              <ul className="m-0">
-                {group.tabs.map((tab) => (
-                  <li key={tab.url}>
-                    {/* TODO: delete */}
+              <ul className="m-0 flex flex-col gap-1">
+                {group.tabs.map((tab, index) => (
+                  <li key={tab.url} className="flex items-center gap-2">
                     <a href={tab.url} target="_blank">
                       {tab.title}
                     </a>
+                    <button
+                      className="m-0 p-0 px-1 cursor-pointer text-[10px]"
+                      onClick={async () => {
+                        await tabManagerProxy.delteTab(group.id, index);
+                        tabGroupsQuery.refetch();
+                      }}
+                    >
+                      x
+                    </button>
                   </li>
                 ))}
               </ul>
