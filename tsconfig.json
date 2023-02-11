@@ -3,11 +3,13 @@
   "include": ["src"],
   "exclude": ["src/dev"],
   "compilerOptions": {
+    "exactOptionalPropertyTypes": false,
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "target": "ESNext",
     "lib": ["ESNext", "DOM"],
+    "types": ["vite/types/importMeta"],
     "jsx": "react-jsx"
   }
 }

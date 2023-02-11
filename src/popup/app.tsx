@@ -1,20 +1,39 @@
-import React from "react";
 import browser from "webextension-polyfill";
+import { tabManagerProxy } from "../utils/tab-manager-client";
+
+// TODO: close save tabs at the same time
 
 export function App() {
-  const [counter, setCounter] = React.useState(0);
-
   return (
     <div className="w-[200px] flex flex-col gap-2">
-      <div className="text-lg m-0">Popup</div>
-      <div className="flex items-center">
-        <div>Counter = {counter}</div>
-        <div className="flex-1"></div>
-        <div className="flex gap-1">
-          <button onClick={() => setCounter(counter + 1)}>-1</button>
-          <button onClick={() => setCounter(counter - 1)}>+1</button>
-        </div>
-      </div>
+      <button
+        onClick={async () => {
+          const tabs = await browser.tabs.query({
+            currentWindow: true,
+            pinned: false,
+            active: true,
+          });
+          const currentTab = tabs[0];
+          if (currentTab) {
+            await tabManagerProxy.addTabGroup([currentTab]);
+            await tabManagerProxy.notify();
+          }
+        }}
+      >
+        Save current tab
+      </button>
+      <button
+        onClick={async () => {
+          const tabs = await browser.tabs.query({
+            currentWindow: true,
+            pinned: false,
+          });
+          await tabManagerProxy.addTabGroup(tabs);
+          await tabManagerProxy.notify();
+        }}
+      >
+        Save all tabs
+      </button>
       <button
         onClick={() => {
           browser.runtime.openOptionsPage();

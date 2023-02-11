@@ -15,7 +15,8 @@ jobs:
       - run: pnpm lint-check
       - run: pnpm tsc
       - run: pnpm build
+      - run: mkdir -p release && mv dist release/web-ext-tab-manager
       - uses: actions/upload-artifact@v3
         with:
-          name: web-ext-artifacts
-          path: web-ext-artifacts/*
+          name: web-ext-tab-manager
+          path: release

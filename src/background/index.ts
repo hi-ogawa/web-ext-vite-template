@@ -1,15 +1,9 @@
-import browser from "webextension-polyfill";
+import { exposeComlinkService } from "../utils/comlink-utils";
+import { CONNECT_TAB_MANAGER, TabManager } from "../utils/tab-manager";
 
-function main() {
-  console.log("background/main");
-
-  browser.tabs.onCreated.addListener(() => {
-    console.log("background/tabs.onCreated");
-  });
-
-  browser.tabs.onRemoved.addListener(() => {
-    console.log("background/tabs.onRemoved");
-  });
+async function main() {
+  const tabManager = await TabManager.load();
+  exposeComlinkService(CONNECT_TAB_MANAGER, tabManager);
 }
 
 main();
