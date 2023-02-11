@@ -87,6 +87,7 @@ const myProxyTransferHandler: comlink.TransferHandler<any, string> = {
     const portName = `proxy-port-${generateId()}`;
     const unsubscribe = exposeComlinkService(portName, value);
     // TODO: how to unsubscribe? probably leaks a lot especially during hmr dev
+    //       special "releaseProxy" message for this purpose? https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/comlink.ts#L457
     unsubscribe;
     return [portName, []];
   },

@@ -30,15 +30,14 @@ export class TabManager {
   static async load(): Promise<TabManager> {
     const record = await browser.storage.local.get(STORAGE_KEY);
     const serialized = record[STORAGE_KEY];
-    const instance = new TabManager();
     if (serialized) {
-      Object.assign(instance, superjson.parse(serialized));
+      return this.deserialize(serialized);
     }
-    return instance;
+    return new TabManager();
   }
 
   async save(): Promise<void> {
-    const serialized = superjson.stringify(pick(this, STORAGE_PROPS));
+    const serialized = this.serialize();
     await browser.storage.local.set({ [STORAGE_KEY]: serialized });
   }
 
