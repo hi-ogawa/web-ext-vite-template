@@ -2,16 +2,19 @@ import browser from "webextension-polyfill";
 import * as superjson from "superjson";
 import { proxy } from "comlink";
 import { generateId } from "./misc";
+import { pick } from "lodash";
 
 export const CONNECT_TAB_MANAGER = "CONNECT_TAB_MANAGER";
 
-const STORAGE_KEY = "STORAGE_KEY";
+const STORAGE_KEY = "__TabManager_3";
+const STORAGE_PROPS: (keyof TabManager)[] = ["groups"];
 
 export class TabManager {
-  groups: SavedTabGroup[] = TAB_MANAGER_MOCK_DATA;
+  groups: SavedTabGroup[] = [];
+  handlers = new Set<() => void>();
 
   //
-  // persistence (TODO)
+  // persistence
   //
 
   static async load(): Promise<TabManager> {
@@ -25,7 +28,7 @@ export class TabManager {
   }
 
   async save(): Promise<void> {
-    const serialized = superjson.stringify(this);
+    const serialized = superjson.stringify(pick(this, STORAGE_PROPS));
     await browser.storage.local.set({ [STORAGE_KEY]: serialized });
   }
 
@@ -33,16 +36,14 @@ export class TabManager {
   // api
   //
 
-  private handlers = new Set<(event?: string) => void>();
-
-  subscribe(handler: (event?: string) => void) {
+  subscribe(handler: () => void) {
     this.handlers.add(handler);
     return proxy(() => this.handlers.delete(handler));
   }
 
-  notify(event?: string) {
+  notify() {
     for (const handler of this.handlers) {
-      handler(event);
+      handler();
     }
   }
 
@@ -57,10 +58,12 @@ export class TabManager {
       tabs,
     };
     this.groups.push(group);
+    this.save();
   }
 
   deleteTabGroup(id: string) {
     this.groups = this.groups.filter((g) => g.id !== id);
+    this.save();
   }
 
   async restoreTabGroup(id: string) {
@@ -82,36 +85,9 @@ export class TabManager {
     if (group) {
       group.tabs.splice(index, 1);
     }
+    this.save();
   }
 }
-
-const TAB_MANAGER_MOCK_DATA: SavedTabGroup[] = [
-  {
-    id: "xxx",
-    createdAt: new Date("2023-02-07T01:23:45"),
-    tabs: [
-      {
-        url: "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json",
-        title: "manifest.json - Mozilla | MDN",
-      },
-      {
-        url: "https://developer.chrome.com/docs/extensions/mv3/manifest/",
-        title: "Manifest file format - Chrome Developers",
-      },
-    ],
-  },
-  {
-    id: "yyy",
-    createdAt: new Date("2023-02-05T12:34:56"),
-    tabs: [
-      {
-        url: "https://github.com/hi-ogawa/web-ext-vite-template/pull/5",
-        title:
-          "feat: tab manager by hi-ogawa · Pull Request #5 · hi-ogawa/web-ext-vite-template",
-      },
-    ],
-  },
-];
 
 interface SavedTabGroup {
   id: string;
@@ -119,5 +95,4 @@ interface SavedTabGroup {
   tabs: SavedTab[];
 }
 
-// TODO: need ID
 type SavedTab = Pick<browser.Tabs.Tab, "url" | "title" | "favIconUrl">;

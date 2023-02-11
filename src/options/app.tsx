@@ -20,6 +20,7 @@ export function App() {
 }
 
 export function AppInner() {
+  // TODO: spinner, cache
   const tabGroupsQuery = useQuery({
     queryKey: ["getTabGroups"],
     queryFn: () => tabManagerProxy.getTabGroups(),
