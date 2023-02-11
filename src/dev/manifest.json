@@ -16,7 +16,7 @@
     "default_popup": "popup/index.html"
   },
   "background": {
-    "scripts": ["background/index.js"]
+    "scripts": ["dist/background/index.js"]
   },
   "options_page": "options/index.html"
 }

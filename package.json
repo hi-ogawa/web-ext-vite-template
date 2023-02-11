@@ -3,6 +3,7 @@
     "clean": "rm -rf dist",
     "dev": "run-p dev:*",
     "dev:vite": "vite --no-clearScreen --port 18181",
+    "dev:background": "esbuild ./src/background/index.ts --bundle --format=esm --outdir=./src/dev/dist/background --watch",
     "dev:tsc": "pnpm tsc --watch --preserveWatchOutput",
     "dev:web-ext": "npx web-ext run -s src/dev -t chromium",
     "build": "run-s build:*",
@@ -44,6 +45,7 @@
     "node": "18.14.0"
   },
   "dependencies": {
+    "comlink": "^4.4.1",
     "immer": "^9.0.19",
     "superjson": "^1.12.2"
   }

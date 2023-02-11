@@ -1,13 +1,6 @@
 import browser from "webextension-polyfill";
-import * as zustand from "zustand";
-import { gClientData, gClientStore } from "../options/app";
 
 export function App() {
-  const clientStore = zustand.useStore(gClientStore);
-  clientStore;
-
-  // clientStore.addG
-
   return (
     <div className="w-[200px] flex flex-col gap-2">
       <button
@@ -20,8 +13,8 @@ export function App() {
           const currentTab = tabs[0];
           console.log({ currentTab });
           if (currentTab) {
-            gClientData.addGroup([currentTab]);
-            gClientData.save();
+            // gClientData.addGroup([currentTab]);
+            // gClientData.save();
           }
         }}
       >
@@ -33,8 +26,9 @@ export function App() {
             currentWindow: true,
             pinned: false,
           });
-          gClientData.addGroup(tabs);
-          gClientData.save();
+          tabs;
+          // gClientData.addGroup(tabs);
+          // gClientData.save();
         }}
       >
         Save all tabs
