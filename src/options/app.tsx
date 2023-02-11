@@ -1,18 +1,23 @@
-import React from "react";
+import { Compose, Debug } from "@hiogawa/utils-react";
+import { useQuery } from "@tanstack/react-query";
+import { CustomQueryClientProvider } from "../components/misc";
 import { dateTimeFormat } from "../utils/misc";
 import { TAB_MANAGER_MOCK_DATA } from "../utils/service";
 import { serviceClient } from "../utils/service-client";
 
 export function App() {
-  React.useEffect(() => {
-    (async () => {
-      const response = await serviceClient.sayHello("project");
-      console.log(response);
-    })();
+  return <Compose elements={[<CustomQueryClientProvider />, <AppInner />]} />;
+}
+
+export function AppInner() {
+  const query = useQuery({
+    queryKey: ["sayHello"],
+    queryFn: () => serviceClient.sayHello("project"),
   });
 
   return (
     <div className="flex flex-col gap-4">
+      <Debug debug={query} />
       <h1 className="text-md m-0">Tab Manager</h1>
       <div className="flex flex-col gap-4">
         {TAB_MANAGER_MOCK_DATA.map((group) => (

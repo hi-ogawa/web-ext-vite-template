@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "target": "ESNext",
     "lib": ["ESNext", "DOM"],
+    "types": ["vite/types/importMeta"],
     "jsx": "react-jsx"
   }
 }
