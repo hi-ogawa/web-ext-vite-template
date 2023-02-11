@@ -59,8 +59,11 @@ export function AppInner() {
               </div>
               <div className="flex gap-1">
                 <button
-                  onClick={async () => {
+                  onClick={async (e) => {
                     await tabManagerProxy.restoreTabGroup(group.id);
+                    if (!e.ctrlKey) {
+                      await tabManagerProxy.deleteTabGroup(group.id);
+                    }
                     tabGroupsQuery.refetch();
                   }}
                 >
@@ -82,6 +85,12 @@ export function AppInner() {
                       className="flex items-center gap-2"
                       href={tab.url}
                       target="_blank"
+                      onClick={async (e) => {
+                        if (!e.ctrlKey) {
+                          await tabManagerProxy.delteTab(group.id, index);
+                          tabGroupsQuery.refetch();
+                        }
+                      }}
                     >
                       <img
                         className="w-4 h-4"

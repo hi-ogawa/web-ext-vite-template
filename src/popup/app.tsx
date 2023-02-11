@@ -1,13 +1,12 @@
 import browser from "webextension-polyfill";
+import { isNonNil } from "../utils/misc";
 import { tabManagerProxy } from "../utils/tab-manager-client";
-
-// TODO: close save tabs at the same time
 
 export function App() {
   return (
     <div className="w-[200px] flex flex-col gap-2">
       <button
-        onClick={async () => {
+        onClick={async (e) => {
           const tabs = await browser.tabs.query({
             currentWindow: true,
             pinned: false,
@@ -17,19 +16,25 @@ export function App() {
           if (currentTab) {
             await tabManagerProxy.addTabGroup([currentTab]);
             await tabManagerProxy.notify();
+            if (!e.ctrlKey) {
+              await browser.tabs.remove([currentTab.id].filter(isNonNil));
+            }
           }
         }}
       >
         Save current tab
       </button>
       <button
-        onClick={async () => {
+        onClick={async (e) => {
           const tabs = await browser.tabs.query({
             currentWindow: true,
             pinned: false,
           });
           await tabManagerProxy.addTabGroup(tabs);
           await tabManagerProxy.notify();
+          if (!e.ctrlKey) {
+            await browser.tabs.remove(tabs.map((t) => t.id).filter(isNonNil));
+          }
         }}
       >
         Save all tabs
