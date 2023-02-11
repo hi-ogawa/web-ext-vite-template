@@ -67,7 +67,7 @@ export class TabManager {
       createdAt: new Date(),
       tabs: tabs.map(toSavedTab),
     };
-    this.groups.push(group);
+    this.groups.unshift(group);
     this.save();
   }
 
