@@ -17,5 +17,5 @@ jobs:
       - run: pnpm build
       - uses: actions/upload-artifact@v3
         with:
-          name: web-ext-artifacts
-          path: web-ext-artifacts/*
+          name: web-ext-tab-manager
+          path: dist
