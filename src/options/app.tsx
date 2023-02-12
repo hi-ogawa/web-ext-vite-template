@@ -92,12 +92,14 @@ export function AppInner() {
                         }
                       }}
                     >
-                      {tab.favIconUrl ? (
-                        <img className="w-4 h-4" src={tab.favIconUrl} />
-                      ) : (
-                        <span className="w-4 h-4 i-ri-earth-line"></span>
-                      )}
-                      <span className="transition hover:text-[var(--antd-colorPrimary)]">
+                      <ImgWithFallback
+                        className="w-4 h-4"
+                        src={tab.favIconUrl}
+                        fallback={
+                          <span className="w-4 h-4 i-ri-earth-line"></span>
+                        }
+                      />
+                      <span className="transition hover:text-colorPrimary">
                         {tab.title}
                       </span>
                     </a>
@@ -117,5 +119,18 @@ export function AppInner() {
           ))}
       </div>
     </div>
+  );
+}
+
+// fallback image error (e.g. other extension's favicon is not available chrome-extension://paihieelminfnbelbkblkjagolhpnipi/assets/icon-32.png)
+function ImgWithFallback(
+  props: JSX.IntrinsicElements["img"] & { fallback: React.ReactElement }
+) {
+  const [error, setError] = React.useState<unknown>();
+  const { fallback, ...imgProps } = props;
+  return error ? (
+    props.fallback
+  ) : (
+    <img {...imgProps} onError={(e) => setError(e)} />
   );
 }
