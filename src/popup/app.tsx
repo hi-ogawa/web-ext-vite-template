@@ -2,25 +2,26 @@ import browser from "webextension-polyfill";
 import { isNonNil } from "../utils/misc";
 import { tabManagerProxy } from "../utils/tab-manager-client";
 
-// TODO: filter out own "options" page
-// TODO: after deletion, show "options" page
-
 export function App() {
   return (
     <div className="w-[200px] flex flex-col gap-2 m-2">
       <button
         className="antd-btn antd-btn-default"
         onClick={async (e) => {
-          const tabs = await browser.tabs.query({
+          let tabs = await browser.tabs.query({
             currentWindow: true,
             pinned: false,
             active: true,
           });
+          tabs = tabs.filter(
+            (t) => !IGNORE_PATTERNS.some((p) => t.url?.startsWith(p))
+          );
           const currentTab = tabs[0];
           if (currentTab) {
             await tabManagerProxy.addTabGroup([currentTab]);
             await tabManagerProxy.notify();
             if (!e.ctrlKey) {
+              browser.runtime.openOptionsPage(); // TODO: no promise?
               await browser.tabs.remove([currentTab.id].filter(isNonNil));
             }
           }
@@ -31,13 +32,17 @@ export function App() {
       <button
         className="antd-btn antd-btn-default"
         onClick={async (e) => {
-          const tabs = await browser.tabs.query({
+          let tabs = await browser.tabs.query({
             currentWindow: true,
             pinned: false,
           });
+          tabs = tabs.filter(
+            (t) => !IGNORE_PATTERNS.some((p) => t.url?.startsWith(p))
+          );
           await tabManagerProxy.addTabGroup(tabs);
           await tabManagerProxy.notify();
           if (!e.ctrlKey) {
+            browser.runtime.openOptionsPage();
             await browser.tabs.remove(tabs.map((t) => t.id).filter(isNonNil));
           }
         }}
@@ -55,3 +60,8 @@ export function App() {
     </div>
   );
 }
+
+const IGNORE_PATTERNS = [
+  "chrome://newtab/",
+  `chrome-extension://${browser.runtime.id}/`,
+];
