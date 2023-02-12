@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eu -o pipefail
 
 # generate png icons with different sizes using https://remixicon.com/
 # usage:
