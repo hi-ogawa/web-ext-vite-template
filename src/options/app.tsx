@@ -1,5 +1,5 @@
 import { Compose } from "@hiogawa/utils-react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { proxy } from "comlink";
 import React from "react";
 import toast from "react-hot-toast";
@@ -12,6 +12,7 @@ import { Modal } from "../components/modal";
 import { intl, format } from "../utils/intl";
 import { cls } from "../utils/misc";
 import { tabManagerProxy } from "../utils/tab-manager-client";
+import { z } from "zod";
 
 export function App() {
   return (
@@ -25,21 +26,25 @@ export function App() {
   );
 }
 
+const QUERY_KEYS = z.enum(["getTabGroups", "runImport", "runExport"]).enum;
+
 export function AppInner() {
   // TODO: spinner, cache
   const tabGroupsQuery = useQuery({
-    queryKey: ["getTabGroups"],
+    queryKey: [QUERY_KEYS.getTabGroups],
     queryFn: () => tabManagerProxy.getTabGroups(),
     onError: () => {
       toast.error("failed to load tab data");
     },
   });
 
+  const queryClient = useQueryClient();
   React.useEffect(() => {
     // TODO: unsubscribe
     tabManagerProxy.subscribe(
       proxy(() => {
-        tabGroupsQuery.refetch();
+        queryClient.invalidateQueries([QUERY_KEYS.getTabGroups]);
+        queryClient.invalidateQueries([QUERY_KEYS.runExport]);
       })
     );
   }, []);
@@ -196,7 +201,7 @@ function ImportPage() {
   const [data, setData] = React.useState("");
 
   const importQuery = useMutation({
-    mutationKey: ["runImport"],
+    mutationKey: [QUERY_KEYS.runImport],
     mutationFn: (data: string) => tabManagerProxy.runImport(data),
     onSuccess: () => {
       toast.success("Successfuly imported data");
@@ -235,7 +240,7 @@ function ImportPage() {
 
 function ExportPage() {
   const exportQuery = useQuery({
-    queryKey: ["runExport"],
+    queryKey: [QUERY_KEYS.runExport],
     queryFn: () => tabManagerProxy.runExport(),
     onError: () => {
       toast.error("failed to export data");
