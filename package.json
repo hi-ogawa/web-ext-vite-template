@@ -19,6 +19,7 @@
     "lint-check:prettier": "prettier --check --cache ."
   },
   "dependencies": {
+    "@formatjs/intl": "^2.6.5",
     "@hiogawa/utils": "^1.0.2",
     "@hiogawa/utils-react": "1.0.0-pre.1",
     "@tanstack/react-query": "^4.24.4",
@@ -32,12 +33,14 @@
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
+    "@hiogawa/unocss-preset-antd": "^1.4.0",
     "@iconify-json/ri": "^1.1.4",
     "@tsconfig/strictest": "^1.0.2",
     "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/webextension-polyfill": "^0.10.0",
+    "@unocss/reset": "^0.49.4",
     "@vitejs/plugin-react": "^3.1.0",
     "esbuild": "^0.17.5",
     "npm-run-all": "^4.1.5",
