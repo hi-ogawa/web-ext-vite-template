@@ -32,3 +32,16 @@ export function ToasterWrapper(props: React.PropsWithChildren) {
     </>
   );
 }
+
+// fallback image error (e.g. other extension's favicon is not available chrome-extension://paihieelminfnbelbkblkjagolhpnipi/assets/icon-32.png)
+export function ImgWithFallback(
+  props: JSX.IntrinsicElements["img"] & { fallback: React.ReactElement }
+) {
+  const [error, setError] = React.useState<unknown>();
+  const { fallback, ...imgProps } = props;
+  return error ? (
+    props.fallback
+  ) : (
+    <img {...imgProps} onError={(e) => setError(e)} />
+  );
+}

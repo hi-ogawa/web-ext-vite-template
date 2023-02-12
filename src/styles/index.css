@@ -1,0 +1,26 @@
+/*  */
+/* light/dark theme */
+/*  */
+:root {
+  color-scheme: light;
+  --at-apply: "antd-variables-default";
+}
+.dark {
+  color-scheme: dark;
+  --at-apply: "antd-variables-dark";
+}
+
+/*  */
+/* reset */
+/*  */
+body {
+  /* extension pages have font-size: 12px as default? */
+  font-size: 16px;
+  --at-apply: "antd-body";
+}
+
+*,
+::before,
+::after {
+  --at-apply: "antd-reset";
+}

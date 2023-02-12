@@ -13,7 +13,7 @@ pnpm build
 pnpm preview
 ```
 
-![image](https://user-images.githubusercontent.com/4232207/218254110-23ec4ba8-255f-4153-a29f-f3766fa8dd59.png)
+![image](https://user-images.githubusercontent.com/4232207/218294748-00ba6b0f-035b-4475-9dfb-17a61a4cbe44.png)
 
 ## references
 
