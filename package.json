@@ -19,7 +19,9 @@
     "lint-check:prettier": "prettier --check --cache ."
   },
   "dependencies": {
+    "@floating-ui/react-dom-interactions": "^0.13.3",
     "@formatjs/intl": "^2.6.5",
+    "@headlessui/react": "^1.7.10",
     "@hiogawa/utils": "^1.0.2",
     "@hiogawa/utils-react": "1.0.0-pre.1",
     "@tanstack/react-query": "^4.24.4",
@@ -29,8 +31,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
+    "react-remove-scroll": "^2.5.5",
     "superjson": "^1.12.2",
-    "webextension-polyfill": "^0.10.0"
+    "webextension-polyfill": "^0.10.0",
+    "zod": "^3.20.6"
   },
   "devDependencies": {
     "@hiogawa/unocss-preset-antd": "^1.4.0",
