@@ -111,8 +111,7 @@ export function AppInner() {
                           <span className="w-4 h-4 i-ri-earth-line"></span>
                         }
                       />
-                      {/* TODO: truncate line with ellipsis */}
-                      <span className="transition hover:text-colorPrimary">
+                      <span className="transition hover:text-colorPrimary line-clamp-1">
                         {tab.title}
                       </span>
                     </a>
