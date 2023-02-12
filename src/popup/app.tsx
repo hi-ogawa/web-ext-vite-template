@@ -7,8 +7,9 @@ import { tabManagerProxy } from "../utils/tab-manager-client";
 
 export function App() {
   return (
-    <div className="w-[200px] flex flex-col gap-2">
+    <div className="w-[200px] flex flex-col gap-2 m-2">
       <button
+        className="antd-btn antd-btn-primary"
         onClick={async (e) => {
           const tabs = await browser.tabs.query({
             currentWindow: true,
@@ -28,6 +29,7 @@ export function App() {
         Save current tab
       </button>
       <button
+        className="antd-btn antd-btn-primary"
         onClick={async (e) => {
           const tabs = await browser.tabs.query({
             currentWindow: true,
@@ -43,6 +45,7 @@ export function App() {
         Save all tabs
       </button>
       <button
+        className="antd-btn antd-btn-primary"
         onClick={() => {
           browser.runtime.openOptionsPage();
         }}

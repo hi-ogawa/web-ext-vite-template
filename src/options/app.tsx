@@ -42,7 +42,7 @@ export function AppInner() {
   // TODO: drag-drop
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-md m-0">Tab Manager</h1>
+      <h1 className="m-0">Tab Manager</h1>
       <div className="flex flex-col gap-4">
         {tabGroupsQuery.isSuccess && tabGroupsQuery.data.length === 0 && (
           <div className="text-lg text-gray-500 mx-2">No tab is saved</div>
