@@ -1,5 +1,5 @@
 import { Compose } from "@hiogawa/utils-react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { proxy } from "comlink";
 import React from "react";
 import toast from "react-hot-toast";
@@ -30,8 +30,7 @@ export function AppInner() {
   const tabGroupsQuery = useQuery({
     queryKey: ["getTabGroups"],
     queryFn: () => tabManagerProxy.getTabGroups(),
-    onError: (e) => {
-      console.error(e);
+    onError: () => {
       toast.error("failed to load tab data");
     },
   });
@@ -154,16 +153,13 @@ function ImportExportModalButton() {
     <>
       <button
         className="antd-btn antd-btn-default px-2 text-sm"
-        onClick={async (e) => {
-          e;
-          setOpen(!open);
-        }}
+        onClick={() => setOpen(!open)}
       >
         Import <span className="text-colorBorder">|</span> Export
       </button>
       <Modal open={open} onClose={() => setOpen(false)}>
-        <div className="p-2 flex flex-col gap-2">
-          <ul className="flex gap-4 border-b px-2">
+        <div className="p-2 flex flex-col gap-2 h-full">
+          <ul className="flex gap-5 border-b px-2">
             {IMPORT_EXPORT_TABS.map((tab) => (
               <li
                 key={tab}
@@ -186,9 +182,93 @@ function ImportExportModalButton() {
               </li>
             ))}
           </ul>
-          <div>TODO</div>
+          <div className="flex-1">
+            {currentTab === "import" && <ImportPage />}
+            {currentTab === "export" && <ExportPage />}
+          </div>
         </div>
       </Modal>
     </>
+  );
+}
+
+function ImportPage() {
+  const [data, setData] = React.useState("");
+
+  const importQuery = useMutation({
+    mutationKey: ["runImport"],
+    mutationFn: (data: string) => tabManagerProxy.runImport(data),
+    onSuccess: () => {
+      toast.success("Successfuly imported data");
+      tabManagerProxy.notify();
+    },
+    onError: () => {
+      toast.error("failed to import data");
+    },
+  });
+
+  return (
+    <div className="flex flex-col gap-1.5 h-full">
+      <textarea
+        className="antd-input w-full flex-1 p-1 font-mono text-sm"
+        placeholder="Please input exported data"
+        value={data}
+        onChange={(e) => {
+          setData(e.target.value);
+        }}
+      />
+      <div className="flex justify-end gap-2">
+        <button
+          className="text-sm antd-btn antd-btn-primary px-2 flex items-center gap-2"
+          onClick={() => {
+            importQuery.mutate(data);
+          }}
+          disabled={importQuery.isLoading}
+        >
+          Import
+          <span className="i-ri-menu-add-line w-4 h-4"></span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ExportPage() {
+  const exportQuery = useQuery({
+    queryKey: ["runExport"],
+    queryFn: () => tabManagerProxy.runExport(),
+    onError: () => {
+      toast.error("failed to export data");
+    },
+  });
+
+  return (
+    <div className="flex flex-col gap-1.5 h-full">
+      <textarea
+        className="antd-input w-full flex-1 p-1 font-mono text-sm"
+        readOnly
+        value={exportQuery.data}
+      />
+      <div className="flex justify-end gap-2">
+        <button
+          className="text-sm antd-btn antd-btn-primary px-2 flex items-center gap-2"
+          disabled={!exportQuery.data}
+          onClick={async () => {
+            if (exportQuery.data) {
+              try {
+                await navigator.clipboard.writeText(exportQuery.data);
+                toast.success("Copied to clipboard");
+              } catch (e) {
+                console.error(e);
+                toast.success("Failed to copy");
+              }
+            }
+          }}
+        >
+          Export
+          <span className="i-ri-clipboard-line w-4 h-4"></span>
+        </button>
+      </div>
+    </div>
   );
 }

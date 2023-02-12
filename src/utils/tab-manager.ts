@@ -3,6 +3,7 @@ import * as superjson from "superjson";
 import { proxy } from "comlink";
 import { generateId } from "./misc";
 import { pick } from "lodash";
+import { z } from "zod";
 
 export const CONNECT_TAB_MANAGER = "CONNECT_TAB_MANAGER";
 
@@ -44,6 +45,16 @@ export class TabManager {
   //
   // api
   //
+
+  runImport(serialized: string) {
+    const groups = deserializeExport(serialized);
+    this.groups = groups.concat(this.groups);
+    this.save();
+  }
+
+  runExport(): string {
+    return serializeExport(this.groups);
+  }
 
   subscribe(handler: () => void) {
     this.handlers.add(handler);
@@ -121,6 +132,53 @@ function toSavedTab(tab: browser.Tabs.Tab): SavedTab {
     title: tab.title,
     favIconUrl: tab.favIconUrl,
   };
+}
+
+const Z_EXPORT_DATA = z.object({
+  groups: z
+    .object({
+      createdAt: z
+        .string()
+        .transform((s) => new Date(s))
+        .refine((d) => !isNaN(d.getTime()))
+        .optional(),
+      tabs: z
+        .object({
+          url: z.string().optional(),
+          title: z.string().optional(),
+          favIconUrl: z.string().optional(),
+        })
+        .array(),
+    })
+    .array(),
+});
+
+function serializeExport(groups: SavedTabGroup[]): string {
+  const exportData: z.input<typeof Z_EXPORT_DATA> = {
+    groups: groups.map((g) => ({
+      createdAt: g.createdAt.toISOString(),
+      tabs: g.tabs.map((t) => ({
+        url: t.url,
+        title: t.title,
+        favIconUrl: t.favIconUrl,
+      })),
+    })),
+  };
+  return JSON.stringify(exportData, null, 2);
+}
+
+function deserializeExport(serialized: string): SavedTabGroup[] {
+  const parsed = Z_EXPORT_DATA.parse(JSON.parse(serialized));
+  const now = new Date();
+  const groups: SavedTabGroup[] = parsed.groups.map((g) => ({
+    id: generateId(),
+    createdAt: g.createdAt ?? now,
+    tabs: g.tabs.map((t) => ({
+      ...t,
+      id: generateId(),
+    })),
+  }));
+  return groups;
 }
 
 // loophole for dev convenience

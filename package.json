@@ -33,7 +33,8 @@
     "react-hot-toast": "^2.4.0",
     "react-remove-scroll": "^2.5.5",
     "superjson": "^1.12.2",
-    "webextension-polyfill": "^0.10.0"
+    "webextension-polyfill": "^0.10.0",
+    "zod": "^3.20.6"
   },
   "devDependencies": {
     "@hiogawa/unocss-preset-antd": "^1.4.0",
