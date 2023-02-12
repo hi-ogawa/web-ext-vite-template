@@ -40,7 +40,7 @@ export function Modal(props: {
         <RemoveScroll className="fixed inset-0 overflow-hidden flex justify-center items-center">
           <Transition.Child
             // TODO: override-able width/height
-            className="transition duration-300 transform w-[600px] h-[400px] bg-colorBgContainer shadow-lg"
+            className="transition duration-300 transform w-[90%] max-w-[700px] h-[90%] max-h-[500px] bg-colorBgContainer shadow-lg"
             enterFrom="opacity-0 scale-95"
             enterTo="opacity-100 scale-100"
             leaveFrom="opacity-100 scale-100"
