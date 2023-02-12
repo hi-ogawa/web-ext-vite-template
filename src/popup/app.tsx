@@ -2,6 +2,9 @@ import browser from "webextension-polyfill";
 import { isNonNil } from "../utils/misc";
 import { tabManagerProxy } from "../utils/tab-manager-client";
 
+// TODO: filter out own "options" page
+// TODO: after deletion, show "options" page
+
 export function App() {
   return (
     <div className="w-[200px] flex flex-col gap-2">
