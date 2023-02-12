@@ -10,3 +10,7 @@ export function generateId(): string {
 export function isNonNil<T>(value: T): value is NonNullable<T> {
   return !isNil(value);
 }
+
+export function cls(...args: unknown[]): string {
+  return args.filter(Boolean).join(" ");
+}
