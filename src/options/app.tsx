@@ -8,7 +8,7 @@ import {
   ImgWithFallback,
   ToasterWrapper,
 } from "../components/misc";
-import { dateTimeFormat } from "../utils/misc";
+import { intl, format } from "../utils/intl";
 import { tabManagerProxy } from "../utils/tab-manager-client";
 
 export function App() {
@@ -55,10 +55,18 @@ export function AppInner() {
           tabGroupsQuery.data.map((group) => (
             <div key={group.id} className="flex flex-col gap-2 text-sm">
               <div className="flex items-center gap-2">
-                {/* TODO: plural */}
-                <div className="text-lg">{group.tabs.length} tabs</div>
+                <div className="text-lg">
+                  {format("{length, plural, one {# tab} other {# tabs}}", {
+                    length: group.tabs.length,
+                  })}
+                </div>
                 <div className="text-gray-500">
-                  Created at {dateTimeFormat.format(group.createdAt)}
+                  Created at{" "}
+                  {intl.formatDate(group.createdAt, {
+                    dateStyle: "medium",
+                    timeStyle: "medium",
+                    hour12: false,
+                  })}
                 </div>
                 <button
                   className="antd-btn antd-btn-default px-2"
