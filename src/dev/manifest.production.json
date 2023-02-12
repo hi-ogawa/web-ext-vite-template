@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/chrome-manifest",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Tab Manager",
   "version": "1.0.0.0",
   "homepage_url": "https://github.com/hi-ogawa/web-ext-vite-template",
@@ -11,11 +11,12 @@
     "128": "assets/icon-128.png"
   },
   "permissions": ["tabs", "storage"],
-  "browser_action": {
+  "action": {
     "default_popup": "src/popup/index.html"
   },
   "background": {
-    "scripts": ["background/index.js"]
+    "type": "module",
+    "service_worker": "background/index.js"
   },
   "options_page": "src/options/index.html"
 }
