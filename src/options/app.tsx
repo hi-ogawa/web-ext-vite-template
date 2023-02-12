@@ -3,7 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { proxy } from "comlink";
 import React from "react";
 import toast from "react-hot-toast";
-import { CustomQueryClientProvider, ToasterWrapper } from "../components/misc";
+import {
+  CustomQueryClientProvider,
+  ImgWithFallback,
+  ToasterWrapper,
+} from "../components/misc";
 import { dateTimeFormat } from "../utils/misc";
 import { tabManagerProxy } from "../utils/tab-manager-client";
 
@@ -99,6 +103,7 @@ export function AppInner() {
                           <span className="w-4 h-4 i-ri-earth-line"></span>
                         }
                       />
+                      {/* TODO: truncate line with ellipsis */}
                       <span className="transition hover:text-colorPrimary">
                         {tab.title}
                       </span>
@@ -119,18 +124,5 @@ export function AppInner() {
           ))}
       </div>
     </div>
-  );
-}
-
-// fallback image error (e.g. other extension's favicon is not available chrome-extension://paihieelminfnbelbkblkjagolhpnipi/assets/icon-32.png)
-function ImgWithFallback(
-  props: JSX.IntrinsicElements["img"] & { fallback: React.ReactElement }
-) {
-  const [error, setError] = React.useState<unknown>();
-  const { fallback, ...imgProps } = props;
-  return error ? (
-    props.fallback
-  ) : (
-    <img {...imgProps} onError={(e) => setError(e)} />
   );
 }
