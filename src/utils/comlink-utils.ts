@@ -1,8 +1,8 @@
-import browser from "webextension-polyfill";
-import type { Endpoint } from "comlink";
 import { tinyassert } from "@hiogawa/utils";
+import type { Endpoint } from "comlink";
 import * as comlink from "comlink";
 import * as superjson from "superjson";
+import browser from "webextension-polyfill";
 import { generateId } from "./misc";
 
 // similar idea as https://github.com/GoogleChromeLabs/comlink/blob/dffe9050f63b1b39f30213adeb1dd4b9ed7d2594/src/node-adapter.ts#L24

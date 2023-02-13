@@ -1,9 +1,9 @@
-import browser from "webextension-polyfill";
-import * as superjson from "superjson";
 import { proxy } from "comlink";
-import { generateId } from "./misc";
 import { pick } from "lodash";
+import * as superjson from "superjson";
+import browser from "webextension-polyfill";
 import { z } from "zod";
+import { generateId } from "./misc";
 
 export const CONNECT_TAB_MANAGER = "CONNECT_TAB_MANAGER";
 

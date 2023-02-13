@@ -1,8 +1,6 @@
 // copied from `curl http://localhost:18181/src/popup/index.html`
-
-import "http://localhost:18181/@vite/client";
-
 import RefreshRuntime from "http://localhost:18181/@react-refresh";
+import "http://localhost:18181/@vite/client";
 
 RefreshRuntime.injectIntoGlobalHook(window);
 window.$RefreshReg$ = () => {};
