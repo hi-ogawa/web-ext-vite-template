@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 import { isNonNil } from "../utils/misc";
-import { tabManagerProxy } from "../utils/tab-manager-client";
+import { tabManagerClient } from "../utils/tab-manager-client";
 
 export function App() {
   return (
@@ -18,8 +18,8 @@ export function App() {
           );
           const currentTab = tabs[0];
           if (currentTab) {
-            await tabManagerProxy.addTabGroup([currentTab]);
-            await tabManagerProxy.notify();
+            await tabManagerClient.addTabGroup([currentTab]);
+            await tabManagerClient.notify();
             if (!e.ctrlKey) {
               browser.runtime.openOptionsPage(); // TODO: no promise?
               await browser.tabs.remove([currentTab.id].filter(isNonNil));
@@ -39,8 +39,8 @@ export function App() {
           tabs = tabs.filter(
             (t) => !IGNORE_PATTERNS.some((p) => t.url?.startsWith(p))
           );
-          await tabManagerProxy.addTabGroup(tabs);
-          await tabManagerProxy.notify();
+          await tabManagerClient.addTabGroup(tabs);
+          await tabManagerClient.notify();
           if (!e.ctrlKey) {
             browser.runtime.openOptionsPage();
             await browser.tabs.remove(tabs.map((t) => t.id).filter(isNonNil));

@@ -1,6 +1,5 @@
 import { Compose } from "@hiogawa/utils-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { proxy } from "comlink";
 import React from "react";
 import toast from "react-hot-toast";
 import {
@@ -11,7 +10,10 @@ import {
 import { Modal } from "../components/modal";
 import { intl, format } from "../utils/intl";
 import { cls } from "../utils/misc";
-import { tabManagerProxy } from "../utils/tab-manager-client";
+import {
+  tabManagerClient,
+  tabManagerSubscribe,
+} from "../utils/tab-manager-client";
 import { z } from "zod";
 
 export function App() {
@@ -32,7 +34,7 @@ export function AppInner() {
   // TODO: spinner, cache
   const tabGroupsQuery = useQuery({
     queryKey: [QUERY_KEYS.getTabGroups],
-    queryFn: () => tabManagerProxy.getTabGroups(),
+    queryFn: () => tabManagerClient.getTabGroups(),
     onError: () => {
       toast.error("failed to load tab data");
     },
@@ -40,13 +42,10 @@ export function AppInner() {
 
   const queryClient = useQueryClient();
   React.useEffect(() => {
-    // TODO: unsubscribe
-    tabManagerProxy.subscribe(
-      proxy(() => {
-        queryClient.invalidateQueries([QUERY_KEYS.getTabGroups]);
-        queryClient.invalidateQueries([QUERY_KEYS.runExport]);
-      })
-    );
+    return tabManagerSubscribe(() => {
+      queryClient.invalidateQueries([QUERY_KEYS.getTabGroups]);
+      queryClient.invalidateQueries([QUERY_KEYS.runExport]);
+    });
   }, []);
 
   // TODO: drag-drop
@@ -80,9 +79,9 @@ export function AppInner() {
                 <button
                   className="antd-btn antd-btn-default px-2"
                   onClick={async (e) => {
-                    await tabManagerProxy.restoreTabGroup(group.id);
+                    await tabManagerClient.restoreTabGroup(group.id);
                     if (!e.ctrlKey) {
-                      await tabManagerProxy.deleteTabGroup(group.id);
+                      await tabManagerClient.deleteTabGroup(group.id);
                     }
                     tabGroupsQuery.refetch();
                   }}
@@ -92,7 +91,7 @@ export function AppInner() {
                 <button
                   className="antd-btn antd-btn-default px-2"
                   onClick={async () => {
-                    await tabManagerProxy.deleteTabGroup(group.id);
+                    await tabManagerClient.deleteTabGroup(group.id);
                     tabGroupsQuery.refetch();
                   }}
                 >
@@ -108,7 +107,7 @@ export function AppInner() {
                       target="_blank"
                       onClick={async (e) => {
                         if (!e.ctrlKey) {
-                          await tabManagerProxy.delteTab(group.id, index);
+                          await tabManagerClient.delteTab(group.id, index);
                           tabGroupsQuery.refetch();
                         }
                       }}
@@ -127,7 +126,7 @@ export function AppInner() {
                     <button
                       className="antd-btn antd-btn-ghost flex items-center"
                       onClick={async () => {
-                        await tabManagerProxy.delteTab(group.id, index);
+                        await tabManagerClient.delteTab(group.id, index);
                         tabGroupsQuery.refetch();
                       }}
                     >
@@ -202,10 +201,10 @@ function ImportPage() {
 
   const importQuery = useMutation({
     mutationKey: [QUERY_KEYS.runImport],
-    mutationFn: (data: string) => tabManagerProxy.runImport(data),
+    mutationFn: (data: string) => tabManagerClient.runImport(data),
     onSuccess: () => {
       toast.success("Successfuly imported data");
-      tabManagerProxy.notify();
+      tabManagerClient.notify();
     },
     onError: () => {
       toast.error("failed to import data");
@@ -241,7 +240,7 @@ function ImportPage() {
 function ExportPage() {
   const exportQuery = useQuery({
     queryKey: [QUERY_KEYS.runExport],
-    queryFn: () => tabManagerProxy.runExport(),
+    queryFn: () => tabManagerClient.runExport(),
     onError: () => {
       toast.error("failed to export data");
     },
