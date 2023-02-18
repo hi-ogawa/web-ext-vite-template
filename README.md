@@ -4,6 +4,8 @@ Template for vite-based browser extension development.
 
 As an example, this repo contains a simple clone of https://www.one-tab.com/.
 
+Further development of this example is moved to https://github.com/hi-ogawa/web-ext-tab-manager.
+
 ```sh
 pnpm i
 pnpm dev
