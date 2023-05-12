@@ -7,6 +7,22 @@ export function App() {
     <div className="w-[200px] flex flex-col gap-2 m-2">
       <button
         className="antd-btn antd-btn-default"
+        onClick={async () => {
+          let tabs = await browser.tabs.query({
+            currentWindow: true,
+            pinned: false,
+            active: true,
+          });
+          tabs = tabs.filter(
+            (t) => !IGNORE_PATTERNS.some((p) => t.url?.startsWith(p))
+          );
+          await tabManagerProxy.emualtePrefersDark(tabs);
+        }}
+      >
+        Prefers dark
+      </button>
+      <button
+        className="antd-btn antd-btn-default"
         onClick={async (e) => {
           let tabs = await browser.tabs.query({
             currentWindow: true,

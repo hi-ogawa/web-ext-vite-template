@@ -46,6 +46,21 @@ export class TabManager {
   // api
   //
 
+  async emualtePrefersDark(tabs: browser.Tabs.Tab[]) {
+    // https://developer.chrome.com/docs/extensions/reference/debugger
+    // https://chromedevtools.github.io/devtools-protocol/
+    // https://chromedevtools.github.io/devtools-protocol/tot/Emulation/#method-setEmulatedMedia
+    for (const tab of tabs) {
+      const target = { tabId: tab.id };
+      await chrome.debugger.attach(target, "1.3");
+      await chrome.debugger.sendCommand(target, "Emulation.setEmulatedMedia", {
+        features: [{ name: "prefers-color-scheme", value: "dark" }],
+      });
+      // TODO: when to detach?
+      // await chrome.debugger.detach(target);
+    }
+  }
+
   runImport(serialized: string) {
     const groups = deserializeExport(serialized);
     this.groups = groups.concat(this.groups);
